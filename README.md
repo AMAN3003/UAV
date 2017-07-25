@@ -279,6 +279,75 @@ run the below code only when there is error in previous one
 
 ```
 
+Run `sudo apt-get -y update`
+
+"Install console bridge "
+
+Run `cd ~/ros_catkin_ws/external_src`
+Run `sudo apt-get -y build-dep console-bridge`
+Run `apt-get -y source -b console-bridge`
+Run `sudo dpkg -i libconsole-bridge0.2*.deb libconsole-bridge-dev*.deb`
+
+"Install liblz4-dev "
+
+Run `sudo apt-get -y install liblz4-dev`
+
+"rosdep install - Errors at the end are normal "
+rUN `cd ~/ros_catkin_ws`
+
+" Python errors after the following command are normal."
+Run `rosdep install --from-paths src --ignore-src --rosdistro indigo -y -r --os=debian:jessie`
+
+echo “******************************************************************”
+echo “About to start some heavy building. Go have a looong coffee break.”
+echo “******************************************************************”
+
+## FIX THE BUILDING THE 69 PACAKGE 
+
+Run `cd /home/px4/ros_catkin_ws/build_isolated/mavros && /opt/ros/indigo/env.sh make -j1 -l2 `
+"the parallel process has the issue"
+
+Run `cd ~/ros_catkin_ws/build_isolated/`
+
+Run `sudo chown -R px4 .`
+
+Run `cd ~/ros_catkin_ws/devel_isolated/`
+
+Run `sudo chown -R px4 `
+
+Run `cd ~/ros_catkin_ws`
+
+Run `cd /home/px4/ros_catkin_ws/build_isolated/mavros && /opt/ros/indigo/env.sh make -j1 -l2`
+"#NEED TO FIX THE CHMOD BUILD IN BUILOD ISOLATED"
+
+"#Then rebuild the ros"
+
+## Building ROS 
+Run `sudo ./src/catkin/bin/catkin_make_isolated --install -DCMAKE_BUILD_TYPE=Release --install-space /opt/ros/indigo`
+
+```
+if some error is captured then executed the line otherwise its fine go ahead
+#cd ~/ros_catkin_ws/build_isolated/
+#sudo chown -R px4 .
+
+#sudo ln -sf /home/ros /opt/
+```
+"Updating .profile and .bashrc "
+
+Run `echo "source /opt/ros/indigo/setup.bash" >> ~/.profile`
+
+Run `source ~/.profile`
+
+Run `echo "source ~/ros_catkin_ws/devel_isolated/setup.bash" >> ~/.bashrc`
+
+Run `source ~/.bashrc`
+
+Run `cd ~/ros_catkin_ws`
+
+
+echo "*** FINISHED building the ros! ***"
+
+
 
 
 
