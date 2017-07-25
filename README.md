@@ -348,6 +348,70 @@ Run `cd ~/ros_catkin_ws`
 echo "*** FINISHED building the ros! ***"
 
 
+## Install Edison swig installation
+```
+Method 1 ) easy 
+
+```
+
+Run `sudo apt-get update`
+
+Run `sudo apt-cache search pcre`
+
+"#please ensure the following packages are returned in the console as output" 
+"#libpcre3-dev - Perl 5 Compatible Regular Expression Library - development files"
+
+Run `sudo apt-get install libpcre3-dev`
+
+Run `sudo apt-get install git`
+
+Run `sudo apt-get install cmake`
+
+Run `sudo apt-get install python-dev`
+
+Run `sudo apt-get install swig`
+
+ 
+-- If the swig installation fails then build from method 2
+
+```
+Method 2) build from scratch
+*Before building and installing mraa library be sure to install the following swig 
+*To build swig  by method 2 be sure to run the given command before going to method 2
+
+
+```
+" please run only for method 2"
+
+Run `sudo apt-get install bison automake autoconf build-essential g++.`
+-It might ask to fix broken packages
+
+Run `sudo apt-get -f install`
+
+Run `git clone https://github.com/swig/swig.git`
+
+Run `cd swig`
+
+Run `chmod +x ./autogen.sh`
+
+Run `sudo ./autogen.sh`
+
+Run `sudo chown -R px4 .`
+
+Run `sudo ./configure --prefix=/some/directory`
+
+*please make sure that some directory is created after this command
+Run `sudo make`
+
+Run `sudo make install`
+
+
+-If everything went fine build would be successful for the swig 
+
+
+
+
+
 
 
 
