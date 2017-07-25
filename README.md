@@ -127,3 +127,49 @@ Run `sudo apt-get -y update`
 Run `sudo apt-get -f install`
 Run `sudo apt-get -y upgrade`
 
+## lOCALES
+
+Run `sudo apt-get install locales`
+Run `sudo dpkg-reconfigure locales`
+
+then Select only "en_US.UTF8" followed by region "Asia" follwed by "Singapore" and finally select "None" as the default on the confirmation page that follows.
+Run `Update-locale`
+
+Update the /etc/default/locale file and ensure LANG=en_US.UTF-8 and it uncommented out. Add LC_ALL=C.
+Run `sudo nano etc/default/locale` 
+- uncomment the LANG=en_US.UTF-8
+- add the line LC_ALL=C
+
+reboot the system to make changes 
+
+in case of any locale errors go through 
+```
+---Solution for locale error --
+Note that if you receive warning messages about missing or wrong languages this is likely to be due to the locale being forwarded when using SSH. Either ignore them or complete this step via the serial console by commenting out the SendEnv LANG LC_* line in the local /etc/ssh/ssh_config file on your machine (not the Edison).
+```
+
+
+## Time Zone
+
+Run `sudo apt-get install ntp`
+
+Run `sudo nano /etc/ntp.conf` 
+- rename the server in the file from  "0.debian.pool.ntp.org" to "server 0.sg.pool.ntp.org"
+
+save the file and then
+
+Run `sudo dpkg-reconfigure tzdata`
+
+## TOOLS
+Run `sudo apt-get -y install git`
+
+Run `apt-get -y install sudo less`
+
+## Add host to the intel edison
+`sudo nano /etc/hosts` and add the following line below in the hosts file.
+
+localhost 127.0.0.1 edison
+
+
+
+
