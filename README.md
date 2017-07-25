@@ -408,6 +408,72 @@ Run `sudo make install`
 
 -If everything went fine build would be successful for the swig 
 
+## Install Edison mraa libraries
+libmraa is not in apt so we’ll have to compile it from source. Don’t worry, it’s easy:
+
+```
+git clone https://github.com/intel-iot-devkit/mraa.git
+mkdir mraa/build && cd $_
+cmake .. -DBUILDSWIGNODE=OFF
+make
+sudo make install
+cd
+```
+Important: Make sure you run the final command, “make install” with root or “sudo.”
+
+"That DBUILDSWIGNODE flag turns off node.js support, which isn’t available in the version of swig in apt. If you need node.js, you can compile a newer version of swig from source (3.01+)."
+
+## Update Shared Library Cache
+"To use the library in C or C++ programs, we need to add it to our shared library cache. With root (or using “sudo”), open up the ld.so.conf file:"
+
+Run `sudo nano /etc/ld.so.conf`
+Scroll down to the bottom of the file and add:
+
+`/usr/local/lib/i386-linux-gnu/`
+
+Your ld.so.conf file should look like this:
+![alt text](https://github.com/AMAN3003/UAV/blob/master/uav1.png)
+
+Save and exit (‘Crtl-x’ and ‘y’ with nano). Type the command (using root or “sudo”):
+
+run `sudo ldconfig`
+
+You can check to make sure that the cache was updated by typing the command:
+Run `sudo ldconfig -p | grep mraa`
+![alt text](https://github.com/AMAN3003/UAV/blob/master/uav2.png)
+
+## Export Library Path for Python
+
+If you plan to use Python with mraa, you will need to export its location to the Python path. Enter the command:
+
+Run `export PYTHONPATH=$PYTHONPATH:$(dirname $(find /usr/local -name mraa.py))`
+
+Note that this command lets us use the mraa module for this terminal session only. If we restart the Edison, we will have to retype the command.
+
+Optional: You can modify the .bashrc file to run the commands automatically every time the Edison starts. Open the .bashrc file with your favorite editor. For example:
+
+Run `nano ~/.bashrc`
+
+Scroll all the way down to the bottom of the file, and add the command from above in a new line.
+
+`export PYTHONPATH=$PYTHONPATH:$(dirname $(find /usr/local -name mraa.py))`
+The bottom of your .bashrc file should look like the screenshot below.
+![alt text](https://github.com/AMAN3003/UAV/blob/master/uav3.png)
+
+
+Save and exit (‘Crtl-x’ and ‘y’ with nano).
+
+
+## Freeing up Space on the Root Partition
+You will need more space on the root partition. Run the following commands:
+
+Run `mv /var/cache /home/`
+
+Run `ln -s /home/cache /var/cache`
+
+Run `mv /usr/share /home/`
+
+Run `ln -s /home/share /var/share`
 
 
 
