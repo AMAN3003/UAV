@@ -203,24 +203,81 @@ fi
 " Update sources.list "
 
 Run `sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu jessie main" > /etc/apt/sources.list.d/ros-latest.list' `
+
 " Get ROS and Raspian keys "
+
 Run ` sudo apt-key adv --keyserver hkp://ha.pool.sks-keyservers.net:80 --recv-key 421C365BD9FF1F717815A3895523BAEEB01FA116 `
+
 Run `wget https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -O - | sudo apt-key add - `
+
 Run `wget http://archive.raspbian.org/raspbian.public.key -O - | sudo apt-key add - `
 
 " Update the OS "
 
 Run `sudo apt-get -y update`
+
 Run `sudo apt-get -y upgrade`
 
 "Install required OS packages "
-Run `sudo apt-get -y install pkg-config`
 
+Run `sudo apt-get -y install pkg-config`
 
 Run `sudo apt-get -y install python-setuptools python-pip python-yaml python-argparse python-distribute python-docutils python-dateutil  python-six `
 
 'Install required ROS packages'
 
+Run `sudo pip install rosdep rosinstall_generator wstool rosinstall`
+ 
+ "Fix some permission issues"
+ Run `sudo cd ~ `
+ 
+ Run `sudo chown -R px4 .`
+ 
+ Run `sudo rosdep init`
+ 
+ Run `rosdep update `
+
+ Run `mkdir ~/ros_catkin_ws `
+ 
+ Run `cd ~/ros_catkin_ws `
+
+ Run `Chmod 777 /ros_catkin_ws `
+
+## Ros Install 
+
+"This will install only mavros and not mavros-extras (no image support which the Edison can’t really handle well anyway)."
+Run `rosinstall_generator ros_comm mavros --rosdistro indigo --deps --wet-only --exclude roslisp --tar > indigo-ros_comm-wet.rosinstall`
+
+" wstool installation "
+
+`sudo wstool init src -j3 indigo-ros_comm-wet.rosinstall `
+
+if there is wstool failure then run the following command
+
+Run ` sudo wstool update -t src -j3 `
+
+```
+while [ $? != 0 ]; do
+  echo "*** wstool - download failures, retrying ***"
+  sudo wstool update -t src -j3
+done
+```
+
+Run `sudo cd ~/ros_catkin_ws `
+
+" Install cmake and update sources.list "
+
+Run `sudo mkdir ~/ros_catkin_ws/external_src `
+
+Run `sudo apt-get -y install checkinstall cmake `
+
+Run `sudo sh -c 'echo "deb-src http://mirrordirector.raspbian.org/raspbian/ testing main contrib non-free rpi" >> /etc/apt/sources.list' `
+
+``` 
+run the below code only when there is error in previous one 
+#sudo sh -c 'echo "deb http://http.debian.net/debian jessie-backports main" >> /etc/apt/sources.list'
+
+```
 
 
 
