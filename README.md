@@ -170,6 +170,63 @@ Run `apt-get -y install sudo less`
 
 localhost 127.0.0.1 edison
 
+## ROS/MAVROS Installation
+
+As ROS packages for the Edison/Debian don't exist we will have to build it from source. This process will take about 1.5 hours but most of it is just waiting for it to build.
+A script has been writen to automate the building and installation of ROS. Current testing has been copy-pasting line by line to the console. Willing testers are encouraged to try out running the script:
+
+Run `sudo git clone -b jessie https://github.com/tcheehow/ros-setups`
+"Clone forked branch (Jessie)  "
+Run `sudo cd ros-setups/intel-edison/`
+
+Run`./install_ros.sh`
+if the above method produces error then follow this step otherwise just go ahead to install libraries like mraa
+
+## Alternate method for installing ros 
+
+```
+#!/bin/bash
+
+# The following installation is based on: http://wiki.ros.org/wiki/edison
+# and http://wiki.ros.org/ROSberryPi/Installing%20ROS%20Indigo%20on%20Raspberry%20Pi
+
+```
+check if you are root
+
+```
+
+if [ `whoami` == "root" ]; then
+  echo "Do not run this as root!"
+  exit 1
+fi
+```
+" Update sources.list "
+
+Run `sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu jessie main" > /etc/apt/sources.list.d/ros-latest.list' `
+" Get ROS and Raspian keys "
+Run ` sudo apt-key adv --keyserver hkp://ha.pool.sks-keyservers.net:80 --recv-key 421C365BD9FF1F717815A3895523BAEEB01FA116 `
+Run `wget https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -O - | sudo apt-key add - `
+Run `wget http://archive.raspbian.org/raspbian.public.key -O - | sudo apt-key add - `
+
+" Update the OS "
+
+Run `sudo apt-get -y update`
+Run `sudo apt-get -y upgrade`
+
+"Install required OS packages "
+Run `sudo apt-get -y install pkg-config`
+
+
+Run `sudo apt-get -y install python-setuptools python-pip python-yaml python-argparse python-distribute python-docutils python-dateutil  python-six `
+
+'Install required ROS packages'
+
+
+
+
+
+
+
 
 
 
